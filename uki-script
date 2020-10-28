@@ -1,5 +1,6 @@
 #!/bin/bash
 # uki-script - Create unified kernel images in Arch
+# v1.0.0
 #
 # Written in 2020 by Tamvana Makuluni <sw@makuluni.com>
 #
