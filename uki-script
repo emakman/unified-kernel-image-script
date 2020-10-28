@@ -1,6 +1,6 @@
 #!/bin/bash
 # uki-script - Create unified kernel images in Arch
-# v1.0.0
+# v1.0.1
 #
 # Written in 2020 by Tamvana Makuluni <sw@makuluni.com>
 #
@@ -82,10 +82,10 @@ process_conf() {
                     install="$(printf '%s' "${line:8}" | sed 's/^\s\+\|\s\+$//')"
                     ;;
                 build_backups)
-                    let backups="${line##*:}" || { echo "invalid config line: $line" && exit 1; }
+                    let build_backups="${line##*:}" v=1 || { echo "invalid config line: $line" && exit 1; }
                     ;;
                 install_backups)
-                    let install_backups="${line##*:}" || { echo "invalid config line: $line" && exit 1; }
+                    let install_backups="${line##*:}" v=1 || { echo "invalid config line: $line" && exit 1; }
                     ;;
                 sign_key)
                     sign_key="$(printf '%s' "${line:9}" | sed 's/^\s\+\|\s\+$//')"
