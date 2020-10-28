@@ -1,0 +1,21 @@
+##
+## Unified Kernel Configuration for use with custom uki installer hook <https://www.github.com/emakman>
+##
+## Microcode images to include.
+#ucode: /boot/*-ucode.img
+## Kernel name. By default, this is the name of the configuration file. The kernel and initramfs are searched at "/boot/vmlinux-$name" and "/boot/initramfs-$name" respectively.
+#kernel:
+## The kernel command-line for the image.
+#command_line: 
+## The splash image.
+#splash: /usr/share/systemd/bootctl/splash-arch.bmp
+## The efistub file.
+#efistub: /usr/lib/systemd/boot/efi/linuxx64.efi.stub
+## Build path. If this is blank, the image will be built at "/boot/unified-image-$name.efi"
+#build:
+## Number of backups to keep of the build file. The first backup will be have the suffix -fallback, the second will be fallback1, and so on.
+#build_backups: 0
+## The install directory. After building, the image will be copied to this directory. If blank, the image will not be copied after building.
+#install:
+## Number of backups to keep of the installed file. (Has no effect if install is blank.)
+#install_backups: 1

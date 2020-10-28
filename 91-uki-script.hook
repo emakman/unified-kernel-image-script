@@ -1,0 +1,15 @@
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Target = usr/lib/modules/*/vmlinuz
+Target = usr/lib/initcpio/*
+Target = usr/lib/os-release
+Target = usr/lib/systemd/boot/efi/linuxx64.efi.stub
+Target = usr/share/systemd/bootctl/splash-arch.bmp
+
+[Action]
+Description = Updating unified kernel image...
+When = PostTransaction
+Exec = /usr/bin/uki-script
+NeedsTargets

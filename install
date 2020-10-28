@@ -1,0 +1,4 @@
+#!/bin/sh
+install -D -m 644 -t "$DESTDIR"/etc/pacman.d/hooks 91-uki-script.hook
+install -D -m 755 -t "$DESTDIR"/usr/bin uki-script
+install -D -m 644 -t "$DESTDIR"/etc/uki-script linux.conf.example
