@@ -48,7 +48,7 @@ process_conf() {
     ucode=/boot/*-ucode.img
     ucode_initramfs=
     cmdline="$(cat /proc/cmdline)"
-    splash=
+    splash="/usr/share/systemd/bootctl/splash-arch.bmp"
     install=
     sign_key=
     sign_cert=
