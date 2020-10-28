@@ -86,12 +86,12 @@ process_conf() {
                 install_backups)
                     let install_backups="${line##*:}" || { echo "invalid config line: $line" && exit 1; }
                     ;;
-		sign_key)
-		    sign_key="$(printf '%s' "${line:9}" | sed 's/^\s\+\|\s\+$//')"
-		    ;;
-		sign_cert)
-		    sign_cert="$(printf '%s' "${line:10}" | sed 's/^\s\+\|\s\+$//')"
-		    ;;
+                sign_key)
+                    sign_key="$(printf '%s' "${line:9}" | sed 's/^\s\+\|\s\+$//')"
+                    ;;
+                sign_cert)
+                    sign_cert="$(printf '%s' "${line:10}" | sed 's/^\s\+\|\s\+$//')"
+                    ;;
                 *)
                     echo "    Unknown option ${line%%:*}!" >&2
                     exit 1
@@ -133,7 +133,7 @@ process_conf() {
             || [ $ctime -lt $efistub_ctime ] \
         ; then
             tmpfile="$(mktemp /tmp/uki-script.XXXXXX)"
-	    backups=$build_backups
+            backups=$build_backups
             echo "$cmdline" > $tmpfile
             backup "$unified"
             if [ -e "$splash" ]; then
@@ -153,17 +153,17 @@ process_conf() {
                         "$efistub" "$unified" || exit 1
             fi
             rm $tmpfile
-	    if [ "x$sign_key" != "x" ] && [ "x$sign_cert" != "x" ]; then
-		sbsign --key "$sign_key" --cert "$sign_cert" --output "$unified" "$unified" || exit 1
-	    fi
+            if [ "x$sign_key" != "x" ] && [ "x$sign_cert" != "x" ]; then
+                sbsign --key "$sign_key" --cert "$sign_cert" --output "$unified" "$unified" || exit 1
+            fi
             if [ -e "$unified" ] && [ -d "$install" ]; then
-		backups=$install_backups
+                backups=$install_backups
                 backup "$install/$kernel_name.efi"
                 cp "$unified" "$install/$kernel_name.efi" || exit 1
             fi
-	    echo "    Done."
-	else
-	    echo "    Image $kernel_name is up to date."
+            echo "    Done."
+        else
+            echo "    Image $kernel_name is up to date."
         fi
     fi
 }
