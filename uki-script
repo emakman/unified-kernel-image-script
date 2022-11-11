@@ -51,6 +51,7 @@ process_conf() {
     cmdline="$(cat /proc/cmdline)"
     splash="/usr/share/systemd/bootctl/splash-arch.bmp"
     install=
+    sbctl_sign=
     sign_key=
     sign_cert=
     efistub="/usr/lib/systemd/boot/efi/linuxx64.efi.stub"
@@ -86,6 +87,9 @@ process_conf() {
                     ;;
                 install_backups)
                     let install_backups="${line##*:}" v=1 || { echo "invalid config line: $line" && exit 1; }
+                    ;;
+                sbctl_sign)
+                    sbctl_sign="$(printf '%s' "${line:11}" | sed 's/^\s\+\|\s\+$//')"
                     ;;
                 sign_key)
                     sign_key="$(printf '%s' "${line:9}" | sed 's/^\s\+\|\s\+$//')"
@@ -157,6 +161,9 @@ process_conf() {
             if [ "x$sign_key" != "x" ] && [ "x$sign_cert" != "x" ]; then
                 sbsign --key "$sign_key" --cert "$sign_cert" --output "$unified" "$unified" || exit 1
             fi
+            if [ "x$sbctl_sign" != "x" ]; then
+                sbctl sign "$unified" || exit 1
+            fi
             if [ -e "$unified" ] && [ -d "$install" ]; then
                 backups=$install_backups
                 backup "$install/$kernel_name.efi"
@@ -169,7 +176,10 @@ process_conf() {
     fi
 }
 
-eval "set -- $(getopt --options f --longoptions force -- "$@")"
+if ! args="$(getopt --options f --longoptions force -- "$@")"; then
+    exit 1
+fi
+eval "set -- $args"
 
 FORCE=false
 CONTINUE=true
@@ -196,12 +206,12 @@ if [ "$#" -gt 0 ]; then
             process_conf "/etc/uki-script/$conf.conf"
         else
             echo "Could not find configuration ${conf@Q}" >&2
-    	exit 1
+            exit 1
         fi
     done
 else
     for conf in /etc/uki-script/*.conf; do
-	process_conf "$conf"
+        process_conf "$conf"
     done
 fi
 
